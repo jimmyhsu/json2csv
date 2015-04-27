@@ -19,5 +19,5 @@ var server = app.listen(app.get('port'), function() {
   console.log('json2csv listening on port ' + server.address().port);
 });
 
-// export for testing
+// export for tests
 module.exports = app;
