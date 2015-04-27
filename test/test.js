@@ -1,5 +1,5 @@
-// var expect = require("chai").expect;
 var chai = require('chai');
+var expect = require("chai").expect;
 var chaiHttp = require('chai-http');
 
 var app = require("../app.js");
@@ -9,25 +9,64 @@ var csv2json = require("../lib/routes/csv2json.js");
 chai.use(chaiHttp);
 
 describe("Converting JSON to CSV", function() {
+
   describe("/json2csv", function() {
-    it("should give a 400 code for empty POST requests", function() {
+
+    it("should give a 400 code for empty POST requests", function(done) {
       chai.request(app)
-        .post('/user/me')
+        .post('/api/v1/json2csv')
         .send({})
-        .end(function (err, res) {
-           expect(err).to.have.status(400);
+        .end(function(err, res) {
+          expect(res).to.have.status(400);
+          done();
         });
     });
-    it("should convert JSON to CSV", function() {
 
+    it("should convert JSON to CSV", function(done) {
+      chai.request(app)
+        .post('/api/v1/json2csv')
+        .send([{
+          "name": "Adam",
+          "lastName": "Smith",
+          "gender": "male",
+          "country": "Scotland"
+        }, {
+          "name": "George",
+          "lastName": "Washington",
+          "gender": "male",
+          "country": "USA"
+        }, {
+          "name": "Marie",
+          "lastName": "Curie",
+          "gender": "female",
+          "country": "France"
+        }])
+        .end(function(err, res) {
+          // console.log(res);
+          expect(res).to.have.status(200);
+          var csv = 'name,lastName,gender,country\n' +
+                    'Adam,Smith,male,Scotland\n' +
+                    'George,Washington,male,USA\n' +
+                    'Marie,Curie,female,France\n';
+          expect(res.text).to.equal(csv);
+          done();
+        });
     });
+
   });
+
 });
 
 describe("Converting CSV to JSON", function() {
   describe("/csv2json", function() {
     it("should convert CSV to JSON", function() {
-
+      chai.request(app)
+        .post('/')
+        .send()
+        .end(function(err, res) {
+          expect(res).to.have.status(200);
+          done();
+        });
     });
   });
 });
