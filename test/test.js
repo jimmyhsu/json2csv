@@ -12,7 +12,7 @@ describe("Converting JSON to CSV", function() {
 
 describe("Converting CSV to JSON", function() {
   describe("/csv2json", function() {
-    it("should convert JSON to CSV", function() {
+    it("should convert CSV to JSON", function() {
 
     });
   });
