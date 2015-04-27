@@ -2,8 +2,8 @@
 var express   = require('express');
 
 // routes
-var json2csv = require('.lib/routes/json2csv');
-var csv2json = require('.lib/routes/csv2json');
+var json2csv = require('./lib/routes/json2csv.js');
+var csv2json = require('./lib/routes/csv2json.js');
 
 // setup
 var app = express();
