@@ -22,6 +22,31 @@ describe("Converting JSON to CSV", function() {
         });
     });
 
+    it("should have a content type of text/csv & charset of utf-8", function(done) {
+      chai.request(app)
+        .post('/api/v1/json2csv')
+        .send([{
+          "name": "Adam",
+          "lastName": "Smith",
+          "gender": "male",
+          "country": "Scotland"
+        }, {
+          "name": "George",
+          "lastName": "Washington",
+          "gender": "male",
+          "country": "USA"
+        }, {
+          "name": "Marie",
+          "lastName": "Curie",
+          "gender": "female",
+          "country": "France"
+        }])
+        .end(function(err, res) {
+          expect(res).to.have.header('content-type', 'text/csv; charset=utf-8');
+          done();
+        });
+    });
+
     it("should convert JSON to CSV", function(done) {
       chai.request(app)
         .post('/api/v1/json2csv')
